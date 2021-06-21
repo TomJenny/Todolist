@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addTaskAPI, deleteTaskAPI, doneTaskAPI, getTaskAPI, getToDoListAPI, rejectTaskAPI } from '../../redux/action/types/ToDoListAction';
+import { addTaskAPI, deleteTaskAPI, doneTaskAPI, getTaskAPI, getToDoListAPI, rejectTaskAPI, updateTaskAPI } from '../../redux/action/types/ToDoListAction';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import { ToDoListDarkTheme } from '../../theme/DarkTheme';
@@ -15,32 +15,28 @@ import { Input } from '../../Components/Input';
 import { Select } from '../../Components/Select';
 
 
-
-
 export default function ToDoList(props) {
     const { taskList, taskEdit } = useSelector(state => state.ToDoListReducer);
-
     const [theme, setTheme] = useState(ToDoListDarkTheme);
+
     const dispatch = useDispatch();
 
-
-    // console.log(taskEdit.taskName)
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
             taskName: taskEdit?.taskName || ''
         },
         validationSchema: yup.object().shape({
-            taskName: yup.string().trim().required("Task Name không được để trống").matches(/^[a-zA-Z ]+$/, 'Chỉ sử dung kiểu chuỗi')
+            taskName: yup.string().trim().required("Task Name không được để trống")
                 .test('check-exist', 'Task Name đã tồn tại', (value) => !taskList.some(item => item.taskName === value))
         }),
         onSubmit: (values, action) => {
-            dispatch(addTaskAPI(values));
+            !taskEdit ? dispatch(addTaskAPI(values)) : dispatch(updateTaskAPI(taskEdit.taskName, values));
             action.resetForm();
         }
 
     });
-    console.log(formik.handleSubmit)
+
     useEffect(() => {
         const actions = getToDoListAPI();
         dispatch(actions);
@@ -120,7 +116,7 @@ export default function ToDoList(props) {
                                 <Button className='btn' type="submit"> <i className="fas fa-plus"></i> AddTask</Button>
                                 <Button className='btn' type="submit"
                                     onClick={() => {
-                                        dispatch(deleteTaskAPI(taskEdit.taskName));
+                                        dispatch(getTaskAPI(taskEdit.taskName));
                                     }}><i className="fas fa-upload"></i>  UpdateTask</Button>
                                 {touched.taskName && errors.taskName && <p className="text text-danger">{formik.errors.taskName}</p>}
                             </div>

@@ -106,3 +106,21 @@ export const rejectTaskAPI = (taskName) => {
     }
 }
 
+// Vì lý do không có api updatetask nên giả lập việc update bằng việc xóa task cũ và add task mới vào
+export const updateTaskAPI = (taskName, updateTaskName) => {
+    return async dispatch => {
+        try {
+
+            await dispatch(addTaskAPI(updateTaskName));
+            await dispatch(deleteTaskAPI(taskName));
+            await dispatch({
+                type: UPDATE_TASK_EDIT
+            })
+        }
+        catch (errors) {
+            console.log('errors', errors.response.data)
+
+        }
+    }
+}
+
