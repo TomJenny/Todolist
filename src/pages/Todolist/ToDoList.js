@@ -27,7 +27,7 @@ export default function ToDoList(props) {
             taskName: taskEdit?.taskName || ''
         },
         validationSchema: yup.object().shape({
-            taskName: yup.string().trim().required("Task Name không được để trống")
+            taskName: yup.string().trim().required("Task Name không được để trống").matches(/^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" + "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" + "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹý\\s]+$/, 'Task Name không chứa ký tự số')
                 .test('check-exist', 'Task Name đã tồn tại', (value) => !taskList.some(item => item.taskName === value))
         }),
         onSubmit: (values, action) => {
