@@ -1,7 +1,7 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
-import ToDoList from './pages/Todolist/ToDoList';
-import Home from './pages/Home/Home';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/Home/Home";
+import ToDoList from "./pages/Todolist/ToDoList";
 
 function App() {
   return (

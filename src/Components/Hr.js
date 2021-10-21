@@ -1,5 +1,5 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Hr = styled.hr`
-    background-color: ${props => props.theme.borderColor};
-`
+  background-color: ${(props) => props.theme.borderColor};
+`;
